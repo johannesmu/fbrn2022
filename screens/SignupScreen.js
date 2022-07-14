@@ -2,7 +2,7 @@ import { Text, View, StyleSheet} from 'react-native'
 export function SignupScreen( props ) {
   return (
     <View style={styles.signupView}>
-      <Text>Home Screen</Text>
+      <Text>Sign up Screen</Text>
     </View>
   )
 }

@@ -2,7 +2,7 @@ import { Text, View, StyleSheet} from 'react-native'
 export function SigninScreen( props ) {
   return (
     <View style={styles.signinView}>
-      <Text>Home Screen</Text>
+      <Text>Sign in Screen</Text>
     </View>
   )
 }
