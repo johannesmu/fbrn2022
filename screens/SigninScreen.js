@@ -1,14 +1,14 @@
 import { Text, View, StyleSheet} from 'react-native'
-export function HomeScreen( props ) {
+export function SigninScreen( props ) {
   return (
-    <View style={styles.homeView}>
+    <View style={styles.signinView}>
       <Text>Home Screen</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create( {
-  homeView: {
+  signinView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

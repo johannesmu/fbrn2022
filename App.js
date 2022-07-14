@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { HomeScreen } from './screens/HomeScreen';
+import { SigninScreen } from './screens/SigninScreen';
+import { SignupScreen } from './screens/SignupScreen';
 
 // firebase config
 import { firebaseConfig } from './config/Config'
