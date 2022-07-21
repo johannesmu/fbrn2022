@@ -1,16 +1,45 @@
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import {useState,useEffect} from 'react'
 export function SignupScreen( {navigation} ) {
+  const [ email, setEmail ] = useState('')
+  const [ validEmail, setValidEmail ] = useState( false )
+  const [ password, setPassword ] = useState()
+  const [ validPassword, setValidPassword ] = useState()
+
+  const validateEmail = ( emailStr ) => {
+    // check if email contains '@' symbol
+    const atIndex = emailStr.indexOf('@')
+    if( atIndex > 0 ) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  const validatePassword = ( passwordStr ) => {
+    // check the length of the password
+    const passLength = passwordStr.length
+    
+  }
+
+  useEffect( () => {
+    console.log( validateEmail( email ) )
+    if ( validateEmail( email ) ) {
+      setValidEmail( true )
+    }
+  }, [email] )
 
   return (
     <KeyboardAvoidingView style={styles.signupView} behavior='padding'>
       <Text>Sign up</Text>
       <View style={styles.signupForm}>
       <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input} onChangeText={ (value) => setEmail(value) }/>
       <Text>Password</Text>
-      <TextInput style={styles.input} />
-      <TouchableOpacity>
-        <Text>Sign up</Text>
+      <TextInput style={styles.input} secureTextEntry={true} onChangeText={ (value) => setPassword(value) } />
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={ () => navigation.navigate('Signin') }>
@@ -41,5 +70,13 @@ const styles = StyleSheet.create( {
   },
   form: {
     alignItems: 'flex-start',
-  }
+  },
+  button: {
+    backgroundColor: 'black',
+    padding: 10,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
 } )
