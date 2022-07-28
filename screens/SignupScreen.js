@@ -1,11 +1,14 @@
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import {useState,useEffect} from 'react'
-import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps'
+import { useNavigation } from '@react-navigation/native'
+
 export function SignupScreen(  props ) {
   const [ email, setEmail ] = useState('')
   const [ validEmail, setValidEmail ] = useState( false )
   const [ password, setPassword ] = useState('')
   const [ validPassword, setValidPassword ] = useState()
+
+  const navigation = useNavigation()
 
   const validateEmail = ( emailStr ) => {
     // check if email contains '@' symbol
@@ -44,6 +47,12 @@ export function SignupScreen(  props ) {
     }
     else { setValidPassword( false ) }
   }, [ email, password ] )
+
+  useEffect( () => {
+    if( props.auth ) {
+      navigation.navigate("Home")
+    }
+  }, [ props.auth ])
 
   return (
     <KeyboardAvoidingView style={styles.signupView} behavior='padding'>

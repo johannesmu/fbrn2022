@@ -36,7 +36,7 @@ export default function App() {
       <Stack.Navigator>
         {/* to pass additional props we have to change our Stack.screen component */}
         <Stack.Screen name="Signup">
-          { ( props) => <SignupScreen {...props} signup={register} /> }
+          { ( props) => <SignupScreen {...props} signup={register} auth={user}/> }
         </Stack.Screen>
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
