@@ -3,7 +3,7 @@ import {useState,useEffect} from 'react'
 export function SignupScreen( {navigation} ) {
   const [ email, setEmail ] = useState('')
   const [ validEmail, setValidEmail ] = useState( false )
-  const [ password, setPassword ] = useState()
+  const [ password, setPassword ] = useState('')
   const [ validPassword, setValidPassword ] = useState()
 
   const validateEmail = ( emailStr ) => {
@@ -20,15 +20,25 @@ export function SignupScreen( {navigation} ) {
   const validatePassword = ( passwordStr ) => {
     // check the length of the password
     const passLength = passwordStr.length
-    
+    if( passLength >= 8 ) {
+      return true
+    }
+    else {
+      return false
+    }
   }
 
   useEffect( () => {
-    console.log( validateEmail( email ) )
+    // console.log( validateEmail( email ) )
     if ( validateEmail( email ) ) {
       setValidEmail( true )
     }
-  }, [email] )
+    else { setValidEmail( false ) }
+    if ( validatePassword( password ) ) {
+      setValidPassword( true )
+    }
+    else { setValidPassword( false ) }
+  }, [ email, password ] )
 
   return (
     <KeyboardAvoidingView style={styles.signupView} behavior='padding'>
@@ -38,7 +48,10 @@ export function SignupScreen( {navigation} ) {
       <TextInput style={styles.input} onChangeText={ (value) => setEmail(value) }/>
       <Text>Password</Text>
       <TextInput style={styles.input} secureTextEntry={true} onChangeText={ (value) => setPassword(value) } />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={ (validEmail && validPassword) ? styles.button : styles.buttonDisabled }
+        disabled={ (validEmail && validPassword) ? false : true }
+      >
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
       </View>
@@ -73,6 +86,10 @@ const styles = StyleSheet.create( {
   },
   button: {
     backgroundColor: 'black',
+    padding: 10,
+  },
+  buttonDisabled: {
+    backgroundColor: '#CCCCCC',
     padding: 10,
   },
   buttonText: {
