@@ -19,14 +19,14 @@ initializeApp(firebaseConfig)
 const Stack = createNativeStackNavigator()
 
 export default function App() {
-  const [auth, setAuth] = useState(false)
+  const [user,setUser] = useState()
 
   const register = (email, password) => {
     const authObj = getAuth()
     console.log( email )
     createUserWithEmailAndPassword(authObj, email, password)
       .then((userCredential) => {
-        console.log(userCredential.user)
+        setUser(userCredential.user)
       })
       .catch((error) => {
         console.log(error)
