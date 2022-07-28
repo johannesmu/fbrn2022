@@ -1,6 +1,7 @@
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import {useState,useEffect} from 'react'
-export function SignupScreen( {navigation} ) {
+import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps'
+export function SignupScreen(  props ) {
   const [ email, setEmail ] = useState('')
   const [ validEmail, setValidEmail ] = useState( false )
   const [ password, setPassword ] = useState('')
@@ -28,6 +29,11 @@ export function SignupScreen( {navigation} ) {
     }
   }
 
+  const signUp = ( email, password ) => {
+    console.log('signing up...')
+    props.signup( email, password )
+  }
+
   useEffect( () => {
     // console.log( validateEmail( email ) )
     if ( validateEmail( email ) ) {
@@ -51,11 +57,12 @@ export function SignupScreen( {navigation} ) {
       <TouchableOpacity 
         style={ (validEmail && validPassword) ? styles.button : styles.buttonDisabled }
         disabled={ (validEmail && validPassword) ? false : true }
+        onPress={ () => { signUp(email,password) }}
       >
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={ () => navigation.navigate('Signin') }>
+      <TouchableOpacity >
         <Text>Go to Sign in</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>

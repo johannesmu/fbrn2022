@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { useState, useEffect } from 'react'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -11,16 +12,33 @@ import { SignupScreen } from './screens/SignupScreen';
 // firebase config
 import { firebaseConfig } from './config/Config'
 import { initializeApp } from 'firebase/app'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 // initialise firebase app
 initializeApp(firebaseConfig)
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+  const [auth, setAuth] = useState(false)
+
+  const register = (email, password) => {
+    const authObj = getAuth()
+    console.log( email )
+    createUserWithEmailAndPassword(authObj, email, password)
+      .then((userCredential) => {
+        console.log(userCredential.user)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Signup" component={SignupScreen} />
+        {/* to pass additional props we have to change our Stack.screen component */}
+        <Stack.Screen name="Signup">
+          { ( props) => <SignupScreen {...props} signup={register} /> }
+        </Stack.Screen>
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
