@@ -49,7 +49,9 @@ export function SignupScreen(  props ) {
   }, [ email, password ] )
 
   useEffect( () => {
+    // auth is passed on as a prop from App.js
     if( props.auth ) {
+      // navigate to the Home screen
       navigation.navigate("Home")
     }
   }, [ props.auth ])
