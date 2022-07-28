@@ -30,7 +30,6 @@ export function SignupScreen(  props ) {
   }
 
   const signUp = ( email, password ) => {
-    console.log('signing up...')
     props.signup( email, password )
   }
 

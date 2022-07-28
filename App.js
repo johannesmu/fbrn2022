@@ -23,7 +23,6 @@ export default function App() {
 
   const register = (email, password) => {
     const authObj = getAuth()
-    console.log( email )
     createUserWithEmailAndPassword(authObj, email, password)
       .then((userCredential) => {
         setUser(userCredential.user)
