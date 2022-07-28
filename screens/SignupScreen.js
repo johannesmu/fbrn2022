@@ -52,7 +52,7 @@ export function SignupScreen(  props ) {
     // auth is passed on as a prop from App.js
     if( props.auth ) {
       // navigate to the Home screen
-      navigation.navigate("Home")
+      navigation.reset( { index: 0, routes: [ {name: "Home"} ]} )
     }
   }, [ props.auth ])
 
@@ -72,7 +72,7 @@ export function SignupScreen(  props ) {
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
       </View>
-      <TouchableOpacity >
+      <TouchableOpacity onPress={ () => navigation.navigate("Signin") }>
         <Text>Go to Sign in</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
