@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity } from "react-native"
 export function SignoutButton( props ) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={ () => props.signout() }>
       <Text>Sign out</Text>
     </TouchableOpacity>
   )

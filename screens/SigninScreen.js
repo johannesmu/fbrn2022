@@ -1,11 +1,14 @@
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import {useState,useEffect} from 'react'
+import { useNavigation } from '@react-navigation/native'
 
-export function SigninScreen( {navigation} ) {
+export function SigninScreen( props ) {
   const [ email, setEmail ] = useState('')
   const [ validEmail, setValidEmail ] = useState( false )
   const [ password, setPassword ] = useState('')
   const [ validPassword, setValidPassword ] = useState()
+
+  const navigation = useNavigation()
 
   const validateEmail = ( emailStr ) => {
     // check if email contains '@' symbol
@@ -29,6 +32,8 @@ export function SigninScreen( {navigation} ) {
     }
   }
 
+  const signIn = ( email, password ) => props.signin( email, password )
+
   useEffect( () => {
     // console.log( validateEmail( email ) )
     if ( validateEmail( email ) ) {
@@ -41,6 +46,14 @@ export function SigninScreen( {navigation} ) {
     else { setValidPassword( false ) }
   }, [ email, password ] )
 
+  useEffect( () => {
+    // auth is passed on as a prop from App.js
+    if( props.auth ) {
+      // navigate to the Home screen
+      navigation.reset( { index: 0, routes: [ {name: "Home"} ]} )
+    }
+  }, [ props.auth ])
+
   return (
     <KeyboardAvoidingView style={styles.signupView} behavior='padding'>
     <Text>Sign in</Text>
@@ -52,6 +65,7 @@ export function SigninScreen( {navigation} ) {
     <TouchableOpacity 
       style={ (validEmail && validPassword) ? styles.button : styles.buttonDisabled }
       disabled={ (validEmail && validPassword) ? false : true }
+      onPress = { () => signIn( email, password ) }
     >
       <Text style={styles.buttonText}>Sign in</Text>
     </TouchableOpacity>
