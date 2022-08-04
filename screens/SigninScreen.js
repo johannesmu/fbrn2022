@@ -53,7 +53,7 @@ export function SigninScreen( {navigation} ) {
       style={ (validEmail && validPassword) ? styles.button : styles.buttonDisabled }
       disabled={ (validEmail && validPassword) ? false : true }
     >
-      <Text style={styles.buttonText}>Sign up</Text>
+      <Text style={styles.buttonText}>Sign in</Text>
     </TouchableOpacity>
     </View>
     <TouchableOpacity onPress={ () => navigation.navigate('Signup') }>
