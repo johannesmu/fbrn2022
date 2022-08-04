@@ -1,6 +1,7 @@
-import { Text, View, StyleSheet} from 'react-native'
+import { Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
+
 
 export function HomeScreen( props ) {
   const navigation = useNavigation()
@@ -13,7 +14,10 @@ export function HomeScreen( props ) {
 
   return (
     <View style={styles.homeView}>
-      <Text>Home Screen</Text>
+      <TextInput style={styles.input} />
+      <TouchableOpacity style={styles.button}>
+        <Text>Add</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -21,7 +25,14 @@ export function HomeScreen( props ) {
 const styles = StyleSheet.create( {
   homeView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  input: {
+    backgroundColor: "white",
+    fontSize: 20,
+    padding: 5,
+  },
+  button: {
+    backgroundColor: 'lightblue',
+    padding: 5,
   },
 } )

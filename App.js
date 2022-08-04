@@ -14,14 +14,22 @@ import { SignoutButton } from './components/SignoutButton'
 import { firebaseConfig } from './config/Config'
 import { initializeApp } from 'firebase/app'
 import { 
+  getFirestore,
+  collection,
+  addDoc 
+} from 'firebase/firestore'
+
+import { 
   getAuth, 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth'
-// initialise firebase app
-initializeApp(firebaseConfig)
+// initialise firebase app and store ref in a variable
+const FBapp = initializeApp(firebaseConfig)
+// initialise Firestore
+const db = getFirestore( FBapp)
 
 const Stack = createNativeStackNavigator()
 
@@ -64,6 +72,12 @@ export default function App() {
     } )
   }
 
+  const addData = async ( FScollection, data ) => {
+    // add data to a collection with FS generated id
+    const ref = await addDoc( collection(db,FScollection), data )
+    console.log( ref.id )
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -78,7 +92,7 @@ export default function App() {
           headerTitle: "App Home",
           headerRight: ( props ) => <SignoutButton {...props} signout={signout} />
         }}>
-          { (props) => <HomeScreen {...props} auth={user} /> }
+          { (props) => <HomeScreen {...props} auth={user} add={addData} /> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
