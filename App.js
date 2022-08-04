@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from './screens/HomeScreen';
 import { SigninScreen } from './screens/SigninScreen';
 import { SignupScreen } from './screens/SignupScreen';
+import { SignoutButton } from './components/SignoutButton'
 
 // firebase config
 import { firebaseConfig } from './config/Config'
@@ -39,7 +40,12 @@ export default function App() {
           { ( props) => <SignupScreen {...props} signup={register} auth={user}/> }
         </Stack.Screen>
         <Stack.Screen name="Signin" component={SigninScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" options={{
+          headerTitle: "App Home",
+          headerRight: ( props ) => <SignoutButton {...props} />
+        }}>
+          { (props) => <HomeScreen {...props} auth={user} /> }
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
