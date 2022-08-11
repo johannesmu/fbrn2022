@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 
@@ -19,6 +19,22 @@ export function HomeScreen( props ) {
     }  
   }, [props.auth] )
 
+  useEffect( () => {
+    console.log( props.data )
+  }, [props.data])
+
+  const clickHandler = (data) => {
+    navigation.navigate('Detail', data )
+  }
+
+  const renderItem = ({item}) => (
+    <View >
+      <Text onPress={ () => clickHandler(item) }>
+        { item.name }
+      </Text>
+    </View> 
+  )
+
   return (
     <View style={styles.homeView}>
       <TextInput style={styles.input} onChangeText={ (val) => setInput(val) } />
@@ -28,6 +44,11 @@ export function HomeScreen( props ) {
       >
         <Text>Add</Text>
       </TouchableOpacity>
+      <FlatList 
+        data={ props.data } 
+        renderItem= {renderItem}
+        keyExtractor={ item => item.id }
+      />
     </View>
   )
 }

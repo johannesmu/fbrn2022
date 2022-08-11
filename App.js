@@ -9,6 +9,7 @@ import { HomeScreen } from './screens/HomeScreen';
 import { SigninScreen } from './screens/SigninScreen';
 import { SignupScreen } from './screens/SignupScreen';
 import { SignoutButton } from './components/SignoutButton'
+import { DetailScreen } from './screens/DetailScreen';
 
 // firebase config
 import { firebaseConfig } from './config/Config'
@@ -16,7 +17,9 @@ import { initializeApp } from 'firebase/app'
 import { 
   getFirestore,
   collection,
-  addDoc 
+  addDoc,
+  query,
+  onSnapshot 
 } from 'firebase/firestore'
 
 import { 
@@ -35,11 +38,16 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
   const [user,setUser] = useState()
+  // state to store data
+  const [appData, setAppData ] = useState()
 
   const authObj = getAuth()
   onAuthStateChanged( authObj, (user) => {
     if( user ) {
       setUser( user )
+      if(!appData) {
+        getData(`users/${user.uid}/items`)
+      }
     }
     else {
       setUser( null )
@@ -78,6 +86,21 @@ export default function App() {
     console.log( ref.id )
   }
 
+  const getData = ( FScollection ) => {
+    const FSquery = query( collection( db, FScollection ) )
+    const unsubscribe = onSnapshot( FSquery, ( querySnapshot ) => {
+      let FSdata = []
+      querySnapshot.forEach( (doc) => {
+        let item = {}
+        item = doc.data()
+        item.id = doc.id
+        FSdata.push( item )
+      })
+      setAppData( FSdata )
+    })
+  }
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -92,7 +115,10 @@ export default function App() {
           headerTitle: "App Home",
           headerRight: ( props ) => <SignoutButton {...props} signout={signout} />
         }}>
-          { (props) => <HomeScreen {...props} auth={user} add={addData} /> }
+          { (props) => <HomeScreen {...props} auth={user} add={addData} data={appData} /> }
+        </Stack.Screen>
+        <Stack.Screen name="Detail" options={{headerTitle: "Item Detail"}}>
+          { (props) => <DetailScreen/> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
