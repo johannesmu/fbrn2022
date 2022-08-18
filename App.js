@@ -19,7 +19,8 @@ import {
   collection,
   addDoc,
   query,
-  onSnapshot 
+  onSnapshot, 
+  updateDoc
 } from 'firebase/firestore'
 
 import { 
@@ -40,16 +41,19 @@ export default function App() {
   const [user,setUser] = useState()
   // state to store data
   const [appData, setAppData ] = useState()
-
+  // object representing Firebase Authentication
   const authObj = getAuth()
-  onAuthStateChanged( authObj, (user) => {
-    if( user ) {
-      setUser( user )
+  // Observer to observe authentication status
+  onAuthStateChanged( authObj, (FBuser) => {
+    if( FBuser ) {
+      // if authenticated, user is an object, setUser state and get data if no data
+      setUser( FBuser )
       if(!appData) {
-        getData(`users/${user.uid}/items`)
+        getData(`users/${FBuser.uid}/items`)
       }
     }
     else {
+      // if not authenticated, user is null
       setUser( null )
     }
   })
@@ -80,12 +84,12 @@ export default function App() {
     } )
   }
 
+  // add data to the user's Firestore 
   const addData = async ( FScollection, data ) => {
     // add data to a collection with FS generated id
     const ref = await addDoc( collection(db,FScollection), data )
-    console.log( ref.id )
   }
-
+  // get all items in user's Firestore -- a subscription that automatically updates when data changes
   const getData = ( FScollection ) => {
     const FSquery = query( collection( db, FScollection ) )
     const unsubscribe = onSnapshot( FSquery, ( querySnapshot ) => {
@@ -99,6 +103,12 @@ export default function App() {
       setAppData( FSdata )
     })
   }
+
+  // update a user's data
+  const updateData = ( FScollection, dataObj ) => {
+    const ref = updateDoc()
+  }
+
 
 
   return (
